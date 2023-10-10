@@ -1,0 +1,23 @@
+{% extends "./base.html" %}
+{% block main %}
+  <div class="container">
+    <form action="" method="POST">
+      {% csrf_token %}
+
+      {% for field in form %}
+        <div class="fieldWrapper m-2">
+          {{ field.label_tag }}
+          {{ field }}
+
+          {% for error in field.errors %}
+            <div id="content-help" class="form-text text-danger">
+              {{ field.errors }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+
+      <button type="submit">제출</button>
+    </form>
+  </div>
+{% endblock %}

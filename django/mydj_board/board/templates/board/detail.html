@@ -1,0 +1,49 @@
+{% extends './base.html' %}
+{% block main %}
+  <div class="container">
+    <h3>상세 게시글</h3>
+
+    <div class="my-5">
+      <div class="my-2">
+        <h5>{{ board.title }}</h5>
+      </div>
+
+      <div style="border:1px solid black; padding:2px; min-height:200px;">
+        {{ board.content }}
+      </div>
+
+      <a href="{% url 'board:edit' board.id %}" class='btn btn-success'>
+        수정
+      </a>
+      <a href="{% url 'board:delete' board.id %}" class='btn btn-primary'>삭제</a>
+    </div>
+
+    <div class="mv-4">
+      <form action="" method="POST" style="display:flex; flex-direction:row;">
+        {% csrf_token %}
+        {% comment %} <input type="text" name="comment" id="" class='form-control'> {% endcomment %}
+        {% for field in form %}
+            {{ field }}
+        {% endfor %}
+        <button type="submit" class="btn btn-primary" style="min-width:100px;">
+          댓글작성
+        </button>
+      </form>
+
+      {% for error in field.errors %}
+        <div id="content-help" class="form-text text-danger">
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+
+    </div>
+
+    <div class="my-4">
+      <ul class="list-group">
+        {% for comment in board.comment_set.all %}
+          <li class="list-group-item">{{ comment.content }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
